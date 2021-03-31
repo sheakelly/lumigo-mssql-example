@@ -5,4 +5,5 @@
 Fill in mssql connection and vpc details
 
 `yarn`
+
 `yarn deploy`

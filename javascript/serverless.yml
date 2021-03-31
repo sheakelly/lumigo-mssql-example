@@ -1,0 +1,46 @@
+service: lumigo-mssql-example-javascript
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: ap-southeast-2
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
+    LUMIGO_DEBUG: true
+    MSSQL_SERVER: ${env:MSSQL_SERVER}
+    MSSQL_DATABASE: ${env:MSSQL_DATABASE}
+    MSSQL_USER: ${env:MSSQL_USER}
+    MSSQL_PASSWORD: ${env:MSSQL_PASSWORD}
+
+functions:
+  handler:
+    handler: src/handler.handler
+    timeout: 60
+    tags:
+      lumigo:auto-trace: true
+    vpc:
+      securityGroupIds:
+        - !GetAtt LambdaSecurityGroup.GroupId
+      subnetIds:
+        - ${env:SUBNET_A}
+        - ${env:SUBNET_B}
+        - ${env:SUBNET_C}
+
+resources:
+  Resources:
+    LambdaSecurityGroup:
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: Allow access to db and anything on port 443
+        VpcId: ${env:VPC_ID}
+        SecurityGroupEgress:
+          - IpProtocol: tcp
+            FromPort: 1433
+            ToPort: 1433
+            CidrIp: 0.0.0.0/0
+          - IpProtocol: tcp
+            FromPort: 443
+            ToPort: 443
+            CidrIp: 0.0.0.0/0

@@ -1,4 +1,4 @@
-service: lumigo-typescript-example
+service: lumigo-mssql-example-typescript
 
 plugins:
   - serverless-webpack
@@ -21,11 +21,10 @@ provider:
     MSSQL_DATABASE: ${env:MSSQL_DATABASE}
     MSSQL_USER: ${env:MSSQL_USER}
     MSSQL_PASSWORD: ${env:MSSQL_PASSWORD}
-    VPC_ID: ${env:VPC_ID}
 
 functions:
-  basic:
-    handler: src/handlers/basic.handler
+  handler:
+    handler: src/handler.handler
     timeout: 60
     tags:
       lumigo:auto-trace: true

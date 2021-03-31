@@ -2,8 +2,6 @@
   "name": "lumigo-typescript-example",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:sheakelly/lumigo-typescript-example.git",
-  "author": "Shea Kelly <shea@sheakelly.com>",
   "license": "MIT",
   "scripts": {
     "deploy": "sls deploy --stage dev"

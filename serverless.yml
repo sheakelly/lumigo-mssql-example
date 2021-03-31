@@ -1,0 +1,21 @@
+service: lumigo-typescript-example
+
+frameworkVersion: ">=1.1.0 <2.0.0"
+
+plugins:
+  - serverless-webpack
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: ap-southeast-2
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
+    LUMIGO_DEBUG: true
+
+functions:
+  basic:
+    handler: src/handlers/basic.handler
+    tags:
+      lumigo:auto-trace: true

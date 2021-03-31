@@ -1,1 +1,1 @@
-# lumigo-typescript-example
+# lumigo-mssql-example

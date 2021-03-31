@@ -1,0 +1,13 @@
+node_modules/
+.vscode/
+yarn-error.log
+dist/
+ts-dist/
+.serverless/
+.webpack/
+coverage/
+package-lock.json
+.cache/
+**/cypress/logs/
+**/.DS_Store
+.env

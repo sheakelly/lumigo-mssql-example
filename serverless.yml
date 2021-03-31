@@ -1,10 +1,14 @@
 service: lumigo-typescript-example
 
-frameworkVersion: ">=1.1.0 <2.0.0"
-
 plugins:
   - serverless-webpack
-  - serverless-dotenv-plugin
+
+useDotenv: true
+
+custom:
+  webpack:
+    packager: 'yarn'
+    includeModules: true
 
 provider:
   name: aws
@@ -13,9 +17,39 @@ provider:
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
     LUMIGO_DEBUG: true
+    MSSQL_SERVER: ${env:MSSQL_SERVER}
+    MSSQL_DATABASE: ${env:MSSQL_DATABASE}
+    MSSQL_USER: ${env:MSSQL_USER}
+    MSSQL_PASSWORD: ${env:MSSQL_PASSWORD}
+    VPC_ID: ${env:VPC_ID}
 
 functions:
   basic:
     handler: src/handlers/basic.handler
+    timeout: 60
     tags:
       lumigo:auto-trace: true
+    vpc:
+      securityGroupIds:
+        - !GetAtt LambdaSecurityGroup.GroupId
+      subnetIds:
+        - ${env:SUBNET_A}
+        - ${env:SUBNET_B}
+        - ${env:SUBNET_C}
+
+resources:
+  Resources:
+    LambdaSecurityGroup:
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: Allow access to db and anything on port 443
+        VpcId: ${env:VPC_ID}
+        SecurityGroupEgress:
+          - IpProtocol: tcp
+            FromPort: 1433
+            ToPort: 1433
+            CidrIp: 0.0.0.0/0
+          - IpProtocol: tcp
+            FromPort: 443
+            ToPort: 443
+            CidrIp: 0.0.0.0/0

@@ -5,12 +5,17 @@
   "repository": "git@github.com:sheakelly/lumigo-typescript-example.git",
   "author": "Shea Kelly <shea@sheakelly.com>",
   "license": "MIT",
+  "scripts": {
+    "deploy": "sls deploy --stage dev"
+  },
   "devDependencies": {
     "aws-sdk": "^2.876.0",
     "serverless": "^2.32.0",
     "serverless-dotenv-plugin": "^3.9.0",
     "serverless-webpack": "^5.4.0",
-    "typescript": "^3.9.3"
+    "ts-loader": "^7.0.5",
+    "typescript": "^3.9.3",
+    "webpack": "^4.43.0"
   },
   "dependencies": {
     "@types/aws-lambda": "^8.10.73",

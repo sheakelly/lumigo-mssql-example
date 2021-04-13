@@ -6,11 +6,11 @@ const setTimeoutP = util.promisify(setTimeout)
 module.exports.handler = async (_, __) => {
   const con = await getConnection()
   await setTimeoutP(1000)
-  con.query`select 1`
+  await con.query`select 1`
   await setTimeoutP(2000)
-  con.query`select 2`
+  await con.query`select 2`
   await setTimeoutP(3000)
-  con.query`select 3`
+  await con.query`select 3`
   return "done"
 }
 
